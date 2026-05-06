@@ -33,20 +33,24 @@ export const createUser = async (data) => {
       html: template(otp, data.firstName),
     });
   } catch (err) {
-    console.error("Email Error during signup:", err.message);
+    console.error("Email Error:", err.message);
   }
 
   return user;
 };
 
 export const confirmEmail = async ({ email, otp }) => {
+  if (!email || !otp) {
+    throw new Error("Email and OTP are required");
+  }
+
   const user = await User.findOne({ email });
 
   if (!user) {
     throw new Error("User not found");
   }
 
-  if (!user.emailOTP || user.emailOTP !== otp) {
+  if (!user.emailOTP || user.emailOTP !== otp.toString()) {
     throw new Error("Invalid OTP");
   }
 
@@ -60,6 +64,8 @@ export const confirmEmail = async ({ email, otp }) => {
   user.emailOTPExpire = null;
 
   await user.save();
+  
+  return { message: "Email confirmed successfully" };
 };
 
 export const loginUser = async ({ email, password }) => {
