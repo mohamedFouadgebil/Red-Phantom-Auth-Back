@@ -11,6 +11,20 @@ export const initApp = (app) => {
 
   connectDB();
 
+  app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'"],
+      styleSrc: ["'self'"],
+      imgSrc: ["'self'"],
+      objectSrc: ["'none'"],
+      baseUri: ["'self'"],
+      frameAncestors: ["'none'"],
+    },
+  })
+);
+
   app.use("/api/users", userRouter);
   
   app.get("/", (req, res) => {
