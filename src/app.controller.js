@@ -3,6 +3,7 @@ import cors from "cors";
 import { connectDB } from "./DB/connections.js";
 import userRouter from "./Modulus/User/user.controller.js";
 import { globalError } from "./Middleware/error.middleware.js";
+import helmet from "helmet";
 
 export const initApp = (app) => {
   app.use(cors());
