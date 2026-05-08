@@ -6,6 +6,7 @@ import { globalError } from "./Middleware/error.middleware.js";
 
 export const initApp = (app) => {
   app.use(cors());
+  app.use(helmet());
   app.use(express.json());
 
   connectDB();
